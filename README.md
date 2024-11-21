@@ -5,7 +5,7 @@ This is a boilerplate [Next.js](https://nextjs.org/) project bootstrapped with [
 First, clone the repository with the following command
 
 ```bash
-git clone https://github.com/NewusTech/maincore-fe.git
+git clone https://github.com/NewusTech/skp-fe.git
 ```
 
 Then, navigate to the project directory
