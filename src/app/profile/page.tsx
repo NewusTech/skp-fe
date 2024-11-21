@@ -12,30 +12,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { UserCircle2 } from "lucide-react";
-
-enum FormFields {
-  Email = "email",
-  Nama = "nama",
-  NIP = "nip",
-  Usia = "usia",
-  JenisKelamin = "jenisKelamin",
-  Jabatan = "jabatan",
-  Departemen = "departemen",
-  NomorTelepon = "nomorTelepon",
-}
+import { useState } from "react";
 
 const formFields = [
-  { name: FormFields.Nama, label: "Nama" },
-  { name: FormFields.NIP, label: "NIP" },
-  { name: FormFields.Usia, label: "Usia" },
-  { name: FormFields.JenisKelamin, label: "Jenis Kelamin" },
-  { name: FormFields.Jabatan, label: "Jabatan / Posisi" },
-  { name: FormFields.Departemen, label: "Departemen / Divisi" },
-  { name: FormFields.Email, label: "Email", type: "email" },
-  { name: FormFields.NomorTelepon, label: "Nomor Telepon" },
+  { name: "nama", label: "Nama" },
+  { name: "nip", label: "NIP" },
+  { name: "usia", label: "Usia" },
+  { name: "jenisKelamin", label: "Jenis Kelamin" },
+  { name: "jabatan", label: "Jabatan / Posisi" },
+  { name: "departemen", label: "Departemen / Divisi" },
+  { name: "email", label: "Email", type: "email" },
+  { name: "nomorTelepon", label: "Nomor Telepon" },
 ];
 
 export default function ProfilePage() {
+  const [isEditing, setIsEditing] = useState(false);
   const form = useForm({
     defaultValues: {
       nama: "Qurrata Aini Dilla Azzahra",
@@ -48,6 +39,8 @@ export default function ProfilePage() {
       nomorTelepon: "0853-4562617",
     },
   });
+
+  const toggleEditing = () => setIsEditing(!isEditing);
 
   return (
     <div className="max-w-4xl mx-auto p-8 mt-[54px]">
@@ -81,12 +74,12 @@ export default function ProfilePage() {
                   name={field.name}
                   render={({ field: fieldProps }) => (
                     <FormItem className="space-y-2 w-[387px]">
-                      <FormLabel className="w-[387px]">{field.label}</FormLabel>
+                      <FormLabel>{field.label}</FormLabel>
                       <FormControl>
                         <TextField
                           {...fieldProps}
                           type={field.type || "text"}
-                          disabled
+                          disabled={!isEditing}
                           className="w-[387px]"
                         />
                       </FormControl>
@@ -99,19 +92,33 @@ export default function ProfilePage() {
 
             <div className="bg-[#FCFBFB] rounded-lg p-6 mt-4">
               <div className="flex justify-center gap-4">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="rounded-full w-[290px] h-[40px] font-normal"
-                >
-                  Edit
-                </Button>
-                <Button
-                  type="submit"
-                  className="rounded-full w-[290px] h-[40px] font-normal"
-                >
-                  Ganti Kata Sandi
-                </Button>
+                {isEditing ? (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="rounded-full w-[290px] h-[40px] font-normal"
+                    onClick={toggleEditing}
+                  >
+                    Simpan
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      className="rounded-full w-[290px] h-[40px] font-normal"
+                      onClick={toggleEditing}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      type="submit"
+                      className="rounded-full w-[290px] h-[40px] font-normal"
+                    >
+                      Ganti Kata Sandi
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </form>
