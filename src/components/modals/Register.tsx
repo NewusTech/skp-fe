@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { TextField } from "../ui/TextField";
+import TextField from "../inputs/TextField";
 import { useModal } from "@/hooks/modal";
 
 const formFields = [

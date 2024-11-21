@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { TextField } from "@/components/ui/TextField";
+import BaseInput from "@/components/inputs/Base";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -18,7 +18,15 @@ const formFields = [
   { name: "nama", label: "Nama" },
   { name: "nip", label: "NIP" },
   { name: "usia", label: "Usia" },
-  { name: "jenisKelamin", label: "Jenis Kelamin" },
+  {
+    name: "jenisKelamin",
+    label: "Jenis Kelamin",
+    type: "dropdown",
+    options: [
+      { value: "Laki-laki", label: "Laki-laki" },
+      { value: "Perempuan", label: "Perempuan" },
+    ],
+  },
   { name: "jabatan", label: "Jabatan / Posisi" },
   { name: "departemen", label: "Departemen / Divisi" },
   { name: "email", label: "Email", type: "email" },
@@ -76,9 +84,10 @@ export default function ProfilePage() {
                     <FormItem className="space-y-2 w-[387px]">
                       <FormLabel>{field.label}</FormLabel>
                       <FormControl>
-                        <TextField
+                        <BaseInput
                           {...fieldProps}
                           type={field.type || "text"}
+                          options={field.options}
                           disabled={!isEditing}
                           className="w-[387px]"
                         />

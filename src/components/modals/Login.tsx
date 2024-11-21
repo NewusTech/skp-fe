@@ -4,7 +4,7 @@ import { User2Icon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { Form, FormField } from "@/components/ui/form";
-import { TextField } from "../ui/TextField";
+import TextField from "../inputs/TextField";
 
 export default function LoginModal() {
   const form = useForm();
