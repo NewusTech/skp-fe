@@ -2,9 +2,12 @@
 
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import LoginModal from "./Login";
 import { cn } from "@/lib/utils";
 import { useModal } from "@/hooks/modal";
+import { Suspense } from "react";
+
+const RegisterModal = React.lazy(() => import("./Register"));
+const LoginModal = React.lazy(() => import("./Login"));
 
 const Dialog = DialogPrimitive.Root;
 const DialogPortal = DialogPrimitive.Portal;
@@ -41,16 +44,17 @@ export const ModalProvider = () => {
       CurrentModal = LoginModal as React.ComponentType;
       break;
     case "register":
-      // Will be implemented later
-      CurrentModal = null;
+      CurrentModal = RegisterModal;
       break;
     default:
       CurrentModal = null;
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent>{CurrentModal && <CurrentModal />}</DialogContent>
-    </Dialog>
+    <Suspense fallback={null}>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent>{CurrentModal && <CurrentModal />}</DialogContent>
+      </Dialog>
+    </Suspense>
   );
 };

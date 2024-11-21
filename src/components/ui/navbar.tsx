@@ -19,7 +19,12 @@ export default function Navbar() {
         >
           Masuk
         </Button>
-        <Button variant="secondary" size="lg" className="rounded-full">
+        <Button
+          onClick={() => modal.onOpen("register")}
+          variant="secondary"
+          size="lg"
+          className="rounded-full"
+        >
           Daftar
         </Button>
       </div>
