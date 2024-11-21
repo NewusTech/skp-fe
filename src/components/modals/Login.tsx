@@ -3,14 +3,7 @@ import LoginIlustration from "@/assets/ilustration/homepage-modal-login.svg";
 import { User2Icon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormField } from "@/components/ui/form";
 import { TextField } from "../ui/TextField";
 
 export default function LoginModal() {
@@ -34,32 +27,23 @@ export default function LoginModal() {
             control={form.control}
             name="username"
             render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <TextField
-                    icon={<User2Icon className="text-[#B6B6B6]" />}
-                    placeholder="Username"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+              <TextField
+                icon={<User2Icon className="text-[#B6B6B6]" />}
+                placeholder="Username"
+                {...field}
+              />
             )}
           />
           <FormField
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="mt-4">
-                <FormControl>
-                  <TextField
-                    type="password"
-                    placeholder="Kata sandi"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+              <TextField
+                type="password"
+                placeholder="Kata sandi"
+                className="mt-4"
+                {...field}
+              />
             )}
           />
 

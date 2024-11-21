@@ -11,6 +11,18 @@ import {
 import { TextField } from "../ui/TextField";
 import { useModal } from "@/hooks/modal";
 
+const formFields = [
+  { name: "username", label: "Username", placeholder: "Username" },
+  { name: "namaLengkap", label: "Nama Lengkap", placeholder: "Nama Lengkap" },
+  { name: "email", label: "Email", placeholder: "Email" },
+  {
+    name: "kataSandi",
+    label: "Kata sandi",
+    placeholder: "Kata sandi",
+    type: "password",
+  },
+];
+
 export default function RegisterModal() {
   const form = useForm();
   const { onClose } = useModal();
@@ -21,67 +33,33 @@ export default function RegisterModal() {
 
       <Form {...form}>
         <form>
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-[#483D3D]">Username</FormLabel>
-                <FormControl>
-                  <TextField placeholder="Username" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="namaLengkap"
-            render={({ field }) => (
-              <FormItem className="mt-4">
-                <FormLabel className="text-[#483D3D]">Nama Lengkap</FormLabel>
-                <FormControl>
-                  <TextField placeholder="Nama Lengkap" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="mt-4">
-                <FormLabel className="text-[#483D3D]">Email</FormLabel>
-                <FormControl>
-                  <TextField placeholder="Email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="kataSandi"
-            render={({ field }) => (
-              <FormItem className="mt-4">
-                <FormLabel className="text-[#483D3D]">Kata sandi</FormLabel>
-                <FormControl>
-                  <TextField
-                    type="password"
-                    placeholder="Kata sandi"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {formFields.map((field, index) => (
+            <FormField
+              key={field.name}
+              control={form.control}
+              name={field.name}
+              render={({ field: fieldProps }) => (
+                <FormItem className={index !== 0 ? "mt-4" : ""}>
+                  <FormLabel className="text-[#483D3D]">
+                    {field.label}
+                  </FormLabel>
+                  <FormControl>
+                    <TextField
+                      type={field.type || "text"}
+                      placeholder={field.placeholder}
+                      {...fieldProps}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
 
           <div className="flex justify-center gap-8 mt-8">
             <Button
               variant="secondary"
-              onClick={() => onClose()}
+              onClick={onClose}
               type="button"
               className="rounded-full w-[120px] h-[40px]"
             >
