@@ -1,7 +1,21 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import SurveyIlustration from "@/assets/ilustration/homepage-survey.svg";
+import dynamic from "next/dynamic";
+import { useModal } from "@/hooks/modal";
+
+const ModalProvider = dynamic(
+  () => import("@/components/modals/Base").then((mod) => mod.ModalProvider),
+  {
+    ssr: false,
+  }
+);
+
 export default function Home() {
+  const { modalType, onOpen } = useModal();
+
   return (
     <div className="mt-[85px] mx-auto">
       <div className="m-auto mt-[85px] w-[823px]">
@@ -17,6 +31,7 @@ export default function Home() {
         </h2>
 
         <Button
+          onClick={() => onOpen("login")}
           variant="default"
           size="lg"
           className="mt-8 rounded-full block mx-auto"
@@ -24,6 +39,7 @@ export default function Home() {
           Mulai Survey
         </Button>
       </div>
+      {modalType && <ModalProvider />}
     </div>
   );
 }
