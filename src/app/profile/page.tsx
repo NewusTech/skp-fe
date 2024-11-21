@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/form";
 import { UserCircle2 } from "lucide-react";
 import { useState } from "react";
+import { useModal } from "@/hooks/modal";
 
 const formFields = [
   { name: "nama", label: "Nama" },
@@ -33,9 +34,13 @@ const formFields = [
   { name: "nomorTelepon", label: "Nomor Telepon" },
 ];
 
+type FormValues = {
+  [K in (typeof formFields)[number]["name"]]: string;
+};
+
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
-  const form = useForm({
+  const form = useForm<FormValues>({
     defaultValues: {
       nama: "Qurrata Aini Dilla Azzahra",
       usia: "20 Tahun",
@@ -47,6 +52,7 @@ export default function ProfilePage() {
       nomorTelepon: "0853-4562617",
     },
   });
+  const modal = useModal();
 
   const toggleEditing = () => setIsEditing(!isEditing);
 
@@ -121,8 +127,9 @@ export default function ProfilePage() {
                       Edit
                     </Button>
                     <Button
-                      type="submit"
+                      type="button"
                       className="rounded-full w-[290px] h-[40px] font-normal"
+                      onClick={() => modal.onOpen("reset-password")}
                     >
                       Ganti Kata Sandi
                     </Button>

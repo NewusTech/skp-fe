@@ -17,13 +17,13 @@ export type BaseInputProps = TextFieldProps &
   };
 
 const BaseInput = React.forwardRef<
-  HTMLInputElement | HTMLSelectElement,
+  HTMLInputElement | HTMLButtonElement,
   BaseInputProps
 >((props, ref) => {
   const { type, options, ...rest } = props;
 
   if (type === "dropdown" && options) {
-    return <Dropdown ref={ref as React.Ref<HTMLSelectElement>} {...props} />;
+    return <Dropdown ref={ref as React.Ref<HTMLButtonElement>} {...props} />;
   }
 
   return <TextField ref={ref as React.Ref<HTMLInputElement>} {...props} />;

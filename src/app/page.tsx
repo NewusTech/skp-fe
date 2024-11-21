@@ -14,7 +14,7 @@ const ModalProvider = dynamic(
 );
 
 export default function Home() {
-  const { modalType, onOpen } = useModal();
+  const { onOpen } = useModal();
 
   return (
     <div className="mt-[85px] mx-auto">
@@ -39,7 +39,6 @@ export default function Home() {
           Mulai Survey
         </Button>
       </div>
-      {modalType && <ModalProvider />}
     </div>
   );
 }

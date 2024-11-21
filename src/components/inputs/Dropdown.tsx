@@ -9,7 +9,7 @@ export interface DropdownProps {
   className?: string;
   icon?: React.ReactNode;
   disabled?: boolean;
-  options: { value: string; label: string }[];
+  options?: { value: string; label: string }[];
   value?: string;
   onValueChange?: (value: string) => void;
 }
@@ -48,7 +48,7 @@ const Dropdown = React.forwardRef<HTMLButtonElement, DropdownProps>(
         <Select.Portal>
           <Select.Content className="overflow-hidden bg-white rounded-md shadow-lg">
             <Select.Viewport className="p-1">
-              {options.map((option) => (
+              {options?.map((option) => (
                 <Select.Item
                   key={option.value}
                   value={option.value}

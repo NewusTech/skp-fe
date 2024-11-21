@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 
-type ModalType = "login" | "register" | null;
+type ModalType = "login" | "register" | "reset-password" | null;
 
 interface ModalStore {
   modalType: ModalType;
