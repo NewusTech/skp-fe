@@ -11,7 +11,7 @@ git clone https://github.com/NewusTech/skp-fe.git
 Then, navigate to the project directory
 
 ```bash
-cd maincore-fe
+cd skp-fe
 ```
 
 Then, run the installation
