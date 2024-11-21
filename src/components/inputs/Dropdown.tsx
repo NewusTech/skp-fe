@@ -2,50 +2,65 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Slot } from "@radix-ui/react-slot";
+import * as Select from "@radix-ui/react-select";
 import { ChevronDown } from "lucide-react";
 
-export interface DropdownProps
-  extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  asChild?: boolean;
+export interface DropdownProps {
+  className?: string;
   icon?: React.ReactNode;
+  disabled?: boolean;
   options: { value: string; label: string }[];
+  value?: string;
+  onValueChange?: (value: string) => void;
 }
 
-const Dropdown = React.forwardRef<HTMLSelectElement, DropdownProps>(
-  ({ className, asChild = false, icon, disabled, options, ...props }, ref) => {
-    const Comp = asChild ? Slot : "select";
-
+const Dropdown = React.forwardRef<HTMLButtonElement, DropdownProps>(
+  (
+    { className, icon, disabled, options, value, onValueChange, ...props },
+    ref
+  ) => {
     return (
-      <div className="relative">
-        {icon && !disabled && (
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            {icon}
-          </div>
-        )}
-        <Comp
+      <Select.Root
+        value={value}
+        onValueChange={onValueChange}
+        disabled={disabled}
+      >
+        <Select.Trigger
+          ref={ref}
           className={cn(
-            "flex w-full rounded-[20px] border secondary bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[hsla(0,8%,71%,1)] text-[#473D3D] appearance-none",
+            "flex w-full items-center justify-between rounded-[20px] border secondary bg-background px-3 py-2 text-sm ring-offset-background",
             icon && !disabled && "pl-10",
             disabled ? "border-none bg-transparent p-0" : "h-10",
             className
           )}
-          ref={ref}
-          disabled={disabled}
           {...props}
         >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </Comp>
-        {!disabled && (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <ChevronDown className="h-4 w-4 text-gray-400" />
+          <div className="flex items-center">
+            {icon && !disabled && <div className="mr-2">{icon}</div>}
+            <Select.Value />
           </div>
-        )}
-      </div>
+          {!disabled && (
+            <Select.Icon>
+              <ChevronDown className="h-4 w-4 text-gray-400" />
+            </Select.Icon>
+          )}
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Content className="overflow-hidden bg-white rounded-md shadow-lg">
+            <Select.Viewport className="p-1">
+              {options.map((option) => (
+                <Select.Item
+                  key={option.value}
+                  value={option.value}
+                  className="relative flex items-center px-8 py-2 text-sm text-gray-700 cursor-default select-none hover:bg-gray-100"
+                >
+                  <Select.ItemText>{option.label}</Select.ItemText>
+                </Select.Item>
+              ))}
+            </Select.Viewport>
+          </Select.Content>
+        </Select.Portal>
+      </Select.Root>
     );
   }
 );
