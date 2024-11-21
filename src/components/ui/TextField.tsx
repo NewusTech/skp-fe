@@ -12,7 +12,7 @@ export interface TextFieldProps
 }
 
 const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ className, asChild = false, type, icon, ...props }, ref) => {
+  ({ className, asChild = false, type, icon, disabled, ...props }, ref) => {
     const Comp = asChild ? Slot : "input";
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -24,7 +24,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
 
     return (
       <div className="relative">
-        {icon && (
+        {icon && !disabled && (
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             {icon}
           </div>
@@ -32,15 +32,17 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         <Comp
           type={inputType}
           className={cn(
-            "flex h-10 w-full rounded-[20px] border secondary bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[hsla(0,8%,71%,1)] disabled:cursor-not-allowed disabled:opacity-50 text-[#473D3D]",
-            icon && "pl-10",
-            type === "password" && "pr-10",
+            "flex w-full rounded-[20px] border secondary bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[hsla(0,8%,71%,1)] text-[#473D3D]",
+            icon && !disabled && "pl-10",
+            type === "password" && !disabled && "pr-10",
+            disabled ? "border-none bg-transparent p-0" : "h-10",
             className
           )}
           ref={ref}
+          disabled={disabled}
           {...props}
         />
-        {type === "password" && (
+        {type === "password" && !disabled && (
           <button
             type="button"
             onClick={togglePasswordVisibility}
