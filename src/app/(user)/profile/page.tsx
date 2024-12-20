@@ -29,9 +29,18 @@ const formFields = [
     ],
   },
   { name: "jabatan", label: "Jabatan / Posisi" },
-  { name: "departemen", label: "Departemen / Divisi" },
+  { name: "jenisKetenagaan", label: "Jenis Ketenagaan" },
+  { name: "pendidikanTerakhir", label: "Pendidikan Terakhir" },
+  { name: "masaKerja", label: "Masa Kerja" },
   { name: "email", label: "Email", type: "email" },
   { name: "nomorTelepon", label: "Nomor Telepon" },
+  { name: "provinsi", label: "Provinsi" },
+  { name: "kabupaten", label: "Kabupaten" },
+  { name: "kecamatan", label: "Kecamatan" },
+  { name: "desa", label: "Desa" },
+  { name: "rt", label: "RT" },
+  { name: "rw", label: "RW" },
+  { name: "alamat", label: "Alamat" },
 ];
 
 type FormValues = {
@@ -50,6 +59,16 @@ export default function ProfilePage() {
       jenisKelamin: "Perempuan",
       departemen: "Kesehatan Lingkungan",
       nomorTelepon: "0853-4562617",
+      pendidikanTerakhir: "S1",
+      jenisKetenagaan: "PNS",
+      provinsi: "Lampung",
+      kabupaten: "Bandar Lampung",
+      kecamatan: "Sukarame",
+      masaKerja: "< 1 Tahun",
+      desa: "Way Dadi",
+      rt: "12",
+      rw: "12",
+      alamat: "Jl. Sukarame No. 1",
     },
   });
   const modal = useModal();

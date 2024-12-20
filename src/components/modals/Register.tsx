@@ -56,9 +56,9 @@ export default function RegisterModal() {
             />
           ))}
 
-          <div className="flex justify-center gap-8 mt-8">
+          <div className="flex justify-center gap-5 mt-8">
             <Button
-              variant="secondary"
+              variant="outlinePrimary"
               onClick={onClose}
               type="button"
               className="rounded-full w-[120px] h-[40px]"

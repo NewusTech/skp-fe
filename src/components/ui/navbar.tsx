@@ -10,7 +10,7 @@ export default function Navbar() {
   const router = useRouter();
 
   return (
-    <div className="h-[59px] bg-white pt-[43px] w-full px-6 flex justify-between items-center">
+    <div className="h-[59px] bg-white pt-[43px] w-full  flex justify-between items-center container mx-auto">
       <Image
         src={SimuskesLogo}
         alt="Simuskes Logo"
@@ -21,16 +21,14 @@ export default function Navbar() {
         <Button
           onClick={() => modal.onOpen("login")}
           variant="default"
-          size="lg"
-          className="rounded-full"
+          className="w-[140px]"
         >
           Masuk
         </Button>
         <Button
           onClick={() => modal.onOpen("register")}
-          variant="secondary"
-          size="lg"
-          className="rounded-full"
+          variant="outlinePrimary"
+          className="w-[140px]"
         >
           Daftar
         </Button>

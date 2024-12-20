@@ -49,7 +49,7 @@ export default function LoginModal() {
 
           <Button
             variant="default"
-            className="mt-8 block mx-auto"
+            className="mt-8 w-[150px] mx-auto block"
             type="submit"
           >
             Masuk

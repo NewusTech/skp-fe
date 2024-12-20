@@ -32,7 +32,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         <Comp
           type={inputType}
           className={cn(
-            "flex w-full rounded-[20px] border secondary bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[hsla(0,8%,71%,1)] text-[#473D3D]",
+            "flex w-full rounded-[20px] border secondary bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-[hsla(0,8%,71%,1)] text-[#473D3D] placeholder:text-[#AAAAB4] placeholder:font-normal focus-visible:outline-none focus-visible:ring-none focus-visible:border-primary",
             icon && !disabled && "pl-10",
             type === "password" && !disabled && "pr-10",
             disabled ? "border-none bg-transparent p-0" : "h-10",
