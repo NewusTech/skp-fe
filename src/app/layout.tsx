@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <NextTopLoader showSpinner={false} />
+        <NextTopLoader color="#80AC6C" showSpinner={false} />
         {children}
       </body>
     </html>
