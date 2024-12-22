@@ -9,6 +9,7 @@ import { Suspense } from "react";
 const ResetPasswordModal = React.lazy(() => import("./ResetPassword"));
 const RegisterModal = React.lazy(() => import("./Register"));
 const LoginModal = React.lazy(() => import("./Login"));
+const LoginAdminModal = React.lazy(() => import("./LoginAdmin"));
 
 const Dialog = DialogPrimitive.Root;
 const DialogPortal = DialogPrimitive.Portal;
@@ -46,6 +47,9 @@ export const ModalProvider = () => {
       break;
     case "register":
       CurrentModal = RegisterModal as React.ComponentType;
+      break;
+    case "login-admin":
+      CurrentModal = LoginAdminModal as React.ComponentType;
       break;
     case "reset-password":
       CurrentModal = ResetPasswordModal as React.ComponentType;

@@ -11,9 +11,9 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="">
+    <div className="mb-10">
       <Navbar />
-      <div className="mt-[85px]">
+      <div className="mt-[35px]">
         <div className="flex flex-col gap-4 items-center">
           <Image
             className="m-auto"

@@ -11,12 +11,26 @@ export default function Navbar() {
 
   return (
     <div className="h-[59px] bg-white pt-[43px] w-full  flex justify-between items-center container mx-auto">
-      <Image
-        src={SimuskesLogo}
-        alt="Simuskes Logo"
-        className="cursor-pointer"
-        onClick={() => router.push("/")}
-      />
+      <div className="flex items-center gap-3">
+        <div className="flex-shrink-0">
+          <Image
+            src="/assets/images/logo-pali.png"
+            alt="logo"
+            width={500}
+            height={500}
+            unoptimized
+            className="w-full object-contain h-[70px] "
+          />
+        </div>
+        <div className="flex flex-col text-primary-800">
+          <div className="font-bold text-2xl">
+            SISKP
+          </div>
+          <div className="text-xs">
+            Sistem Informasi Kepuasaan Pegawai
+          </div>
+        </div>
+      </div>
       <div className="flex space-x-4">
         <Button
           onClick={() => modal.onOpen("login")}

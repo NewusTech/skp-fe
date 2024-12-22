@@ -104,7 +104,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 <div className="wra white -z-10 md:ml-[290px] bg-transparent m-auto justify-between md:justify-end md:py-[23px] flex items-center gap-4 text-left">
                     <div className="teks flex-shrink-0 text-primary">
                         <div className="head font-bold text-lg text-primary">
-                            TRYOUT
+                            SISKP
                         </div>
                         {/* <div className="head text-sm">Super Admin</div> */}
                     </div>
@@ -117,7 +117,7 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                 </div>
             </div>
             {/* sidebar */}
-            <div className={`sidebar border-r-2 border-gray-100 shadow-lg bg-white overflow-auto z-50 pt-[10px] md:pt-0 md:z-20 md:block h-screen fixed top-0 ${navbar ? "left-[0%]" : "left-[-100%]"
+            <div className={`sidebar border-r-2 border-gray-100 shadow-lg bg-[#FCFBFB] overflow-auto z-50 pt-[10px] md:pt-0 md:z-20 md:block h-screen fixed top-0 ${navbar ? "left-[0%]" : "left-[-100%]"
                 } box-border md:w-[310px] md:shadow-none shadow-lg w-[75%] px-[20px] bg-whie transition-all duration-300 md:left-0 `}>
                 {/* menu */}
                 <div className="wrap-nav mt-[20px] flex bg-red flex-col gap-2 mb-10">

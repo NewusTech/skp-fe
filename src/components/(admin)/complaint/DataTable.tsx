@@ -64,7 +64,7 @@ const DataTable: React.FC<ComplaintResponse> = ({ headers, data, currentPage, se
                                                     <div className="h-1 w-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all animate-pulse"></div>
                                                     <DropdownMenuGroup>
                                                         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                                            <Link className="w-full" href={`/question-survey/edit/${item?.id}`}>
+                                                            <Link className="w-full" href={`/complaint-result/reply/${item?.id}`}>
                                                                 <div className="flex items-center gap-2 text-primary">
                                                                     Balas Aduan
                                                                 </div>
