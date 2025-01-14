@@ -28,7 +28,7 @@ export default function RegisterModal() {
   const { onClose } = useModal();
 
   return (
-    <div className="h-[565px] w-[540px] py-[32px] px-[60px] bg-white border-[0.5px] border-primary rounded-[20px] relative">
+    <div className="h-auto md:w-[540px] w-[330px] md:py-[32px] py-[20px] md:px-[60px] px-8 bg-white border-[0.5px] border-primary rounded-[20px]">
       <h2 className="text-primary text-xl font-bold mb-8">Daftar akun baru</h2>
 
       <Form {...form}>

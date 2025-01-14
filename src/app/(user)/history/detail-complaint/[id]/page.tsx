@@ -9,7 +9,7 @@ interface HeaderProps {
 }
 const HeaderLabel = (props: HeaderProps) => {
     return (
-        <div className="flex w-full">
+        <div className="flex w-full md:text-base text-sm">
             <div className="font-semibold w-1/3">{props.label}</div>
             <div className="w-2/3">: {props.value}</div>
         </div>
@@ -44,25 +44,25 @@ const DetailComplaint = () => {
                 <HeaderLabel label="Tanggal" value={pengaduanData.respondent.tanggal} />
             </div>
             {/* judul */}
-            <div className="card rounded-xl bg-[#F8F7F7] p-6 flex flex-col gap-3">
+            <div className="card rounded-xl bg-[#F8F7F7] p-6 flex flex-col gap-3 md:text-base text-sm">
                 <div className="font-semibold text-primary">Judul Aduan</div>
                 <div>{pengaduanData.judulAduan}</div>
             </div>
             {/* aduan */}
-            <div className="card rounded-xl bg-[#F8F7F7] p-6 flex flex-col gap-3">
+            <div className="card rounded-xl bg-[#F8F7F7] p-6 flex flex-col gap-3 md:text-base text-sm">
                 <div className="font-semibold text-primary">Aduan</div>
                 <div>{pengaduanData.aduan}</div>
             </div>
             {/* dokumen */}
-            <div className="card rounded-xl flex flex-col gap-3">
+            <div className="card rounded-xl flex flex-col gap-3 md:text-base text-sm">
                 <div className="font-semibold text-primary">Dokumen</div>
-                <div className="w-[400px] h-[300px] rounded-lg bg-gray-200"></div>
+                <div className="md:w-[400px] w-full md:h-[300px] h-[250px] rounded-lg bg-gray-200"></div>
             </div>
             {/* balasan */}
             <div className="flex flex-col gap-2">
                 <div className="font-semibold text-primary">Balasan</div>
-                <div className="card rounded-xl bg-white border p-4 flex flex-col gap-3">
-                    <div>{pengaduanData.aduan}</div>
+                <div className="card rounded-xl bg-white border p-4 flex flex-col gap-3 md:text-base text-sm">
+                    <div>{pengaduanData.balasan}</div>
                 </div>
             </div>
         </div>

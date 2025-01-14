@@ -27,15 +27,15 @@ const ComplaintPage = () => {
     return (
         <div>
             <TitleLabel label="Buat Pengaduan" />
-            <form className='mt-6 flex flex-col gap-7'>
-                <div className="date p-6 rounded-xl bg-[#F8F7F7] flex items-center">
+            <form className='md:mt-6 mt-4 flex flex-col gap-7'>
+                <div className="date p-6 rounded-xl bg-[#F8F7F7] flex items-center gap-2">
                     <div className="font-semibold w-1/4">Tanggal</div>
-                    <div className="w-3/4">
+                    <div className="md:w-3/4 w-full">
                         <DatePicker
                             selectedDate={selectedDate}
                             onChange={handleDateChange}
                             placeholder="Pilih Tanggal"
-                            className='w-[500px]'
+                            className='md:w-[500px] w-full'
                         />
                     </div>
                 </div>
@@ -50,7 +50,7 @@ const ComplaintPage = () => {
                     />
                 </InputComponent>
                 <InputComponent colorText="text-primary-800" title="Dokumen" isVertical>
-                    <div className="text-editor h-[260px] border border-dashed border-[#D9D9D9] rounded-lg overflow-hidden flex justify-center items-center p-2">
+                    <div className="text-editor md:h-[260px] h-[220px] border border-dashed border-[#D9D9D9] rounded-lg overflow-hidden flex justify-center items-center p-2">
                         <input
                             type="file"
                             accept="image/*"
@@ -71,13 +71,14 @@ const ComplaintPage = () => {
                     <Button
                         type='button'
                         variant="outlineSecondary"
-                        className="text-secondary w-[120px]"
+                        className="text-secondary w-full md:w-[120px]"
                         onClick={() => router.push('/')}
                     >
                         Batal
                     </Button>
                     <Button
                         variant="secondary"
+                        className="w-full md:w-[120px]"
                     >
                         Kirim Pengaduan
                     </Button>

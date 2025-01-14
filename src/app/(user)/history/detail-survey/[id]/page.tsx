@@ -7,7 +7,7 @@ interface HeaderProps {
 }
 const HeaderLabel = (props: HeaderProps) => {
     return (
-        <div className="flex w-full">
+        <div className="flex w-full md:text-base text-sm">
             <div className="font-semibold w-1/3">{props.label}</div>
             <div className="w-2/3">: {props.value}</div>
         </div>
@@ -44,7 +44,7 @@ const DetailSurvey = () => {
     return (
         <div className="flex flex-col gap-3">
             <TitleLabel label="Detail Survey"/>
-            <div className="font-semibold text-primary-800 text-2xl">Detail Survey</div>
+            {/* <div className="font-semibold text-primary-800 text-2xl">Detail Survey</div> */}
             <div className="header flex flex-col gap-3 mb-4">
                 <HeaderLabel label="Nama" value={surveyData.respondent.nama} />
                 <HeaderLabel label="Jenis Kelamin" value={surveyData.respondent.jenisKelamin} />
@@ -54,7 +54,7 @@ const DetailSurvey = () => {
             </div>
             {/* question */}
             {surveyData.questions.map((question, index) => (
-                <div key={question.id} className="card rounded-xl bg-[#F8F7F7] p-6 flex flex-col gap-3">
+                <div key={question.id} className="card rounded-xl bg-[#F8F7F7] p-6 flex flex-col gap-3 md:text-base text-sm">
                     <div className="font-semibold text-primary">Pertanyaan {index + 1}</div>
                     <div>{question.pertanyaan}</div>
                     <div className="font-semibold">
@@ -63,9 +63,9 @@ const DetailSurvey = () => {
                 </div>
             ))}
             {/* kritik saran */}
-            <div className="card rounded-xl bg-[#F8F7F7] p-6 flex flex-col gap-3">
+            <div className="card rounded-xl bg-[#F8F7F7] p-6 flex flex-col gap-3 md:text-base text-sm">
                 <div className="font-semibold text-primary">Kritik dan Saran</div>
-                <div>{surveyData.kritikSaran}</div>
+                <div className="text-justify">{surveyData.kritikSaran}</div>
             </div>
         </div>
     );

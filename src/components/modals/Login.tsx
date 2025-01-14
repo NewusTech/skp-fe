@@ -10,14 +10,14 @@ export default function LoginModal() {
   const form = useForm();
 
   return (
-    <div className="h-[565px] w-[540px] py-[32px] px-[60px] bg-white border-[0.5px] border-primary rounded-[20px]">
+    <div className="h-auto md:w-[540px] w-[330px] md:py-[32px] py-[20px] md:px-[60px] px-8 bg-white border-[0.5px] border-primary rounded-[20px]">
       <Image
         src={LoginIlustration}
         alt="Login Ilustration"
-        className="m-auto"
+        className="m-auto w-[120px] md:w-[150px]"
       />
 
-      <p className="mb-8 mt-4 text-center text-primary text-[20px]">
+      <p className="mb-8 mt-4 text-center text-primary text-base md:text-[20px]">
         Silahkan <span className="font-bold">Masuk</span> terlebih dahulu
       </p>
 

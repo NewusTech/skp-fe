@@ -18,7 +18,7 @@ export default function InputComponent({
     if (isVertical) {
         return (
             <div className="space-y-2">
-                <h4 className={`font-medium ${colorText}`}>
+                <h4 className={`font-medium md:text-base text-sm ${colorText}`}>
                     {title}
                     {isRequired && (
                         <span className="text-error-700 text-sm -mt-4">*</span>
@@ -32,7 +32,7 @@ export default function InputComponent({
     if (isOption) {
         return (
             <div className="flex items-center space-x-2">
-                <h4 className={`w-4/12 font-medium ${colorText}`}>
+                <h4 className={`w-4/12 flex-shrink-0 font-medium md:text-base text-sm ${colorText}`}>
                     {title}
                     {isRequired && (
                         <span className="text-error-700 text-sm -mt-4">*</span>
@@ -45,7 +45,7 @@ export default function InputComponent({
 
     return (
         <div className="flex items-center justify-between space-x-2">
-            <h4 className={`w-1/2 font-medium ${colorText}`}>
+            <h4 className={`w-1/2 flex-shrink-0 font-medium md:text-base text-sm ${colorText}`}>
                 {title}
                 {isRequired && (
                     <span className="text-error-700 text-sm -mt-4">*</span>

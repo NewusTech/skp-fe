@@ -9,9 +9,9 @@ export default function ResetPasswordModal() {
   const form = useForm();
 
   return (
-    <div className=" w-[944px] py-[32px] px-[60px] bg-white border-[0.5px] border-primary rounded-[20px] flex">
+    <div className=" h-auto md:w-[640px] w-[330px] md:py-[32px] py-[20px] md:px-[60px] px-8 bg-white border-[0.5px] border-primary rounded-[20px]">
       <div className="w-full">
-        <h2 className="text-[26px] text-primary font-semibold mb-8">
+        <h2 className="md:text-[26px] text-xl text-primary font-semibold mb-4 md:mb-8">
           Ganti Kata Sandi
         </h2>
         <Form {...form}>

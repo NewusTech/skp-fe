@@ -57,19 +57,20 @@ export default function SurveyPage() {
       <TitleLabel label="Isi Survey" />
       {/* with login */}
       <div className="date p-7 rounded-xl bg-[#F8F7F7] flex items-center">
-        <div className="w-1/2 flex flex-col gap-4">
+        <div className="md:w-1/2 w-full flex flex-col gap-4">
           <InputComponent title="Tanggal">
             <DatePicker
               selectedDate={selectedDate}
               onChange={handleDateChange}
               placeholder="Pilih Tanggal"
+              className='w-full'
             />
           </InputComponent>
         </div>
       </div>
       {/* not login */}
-      <div className="date p-7 rounded-xl bg-[#F8F7F7] flex gap-7">
-        <div className="w-1/2 flex flex-col gap-4">
+      <div className="date p-7 rounded-xl bg-[#F8F7F7] flex md:flex-row flex-col gap-7">
+        <div className="md:w-1/2 w-full flex flex-col gap-4">
           <InputComponent title="Nama">
             <Input
               placeholder="Nama"
@@ -99,7 +100,7 @@ export default function SurveyPage() {
           </InputComponent>
         </div>
         {/* right */}
-        <div className="w-1/2 flex flex-col gap-4">
+        <div className="md:w-1/2 w-full flex flex-col gap-4">
           <InputComponent title="Jenis Kelamin">
             <SelectInput
               label="Jenis Kelamin"
@@ -134,7 +135,7 @@ export default function SurveyPage() {
       <div className="space-y-8">
         {dummyQuestions.map((question) => (
           <div key={question.id} className="space-y-8">
-            <p className="text-base font-semibold text-primary-800">
+            <p className="md:text-base text-sm font-semibold text-primary-800">
               {question.id}. {question.text}
             </p>
             <div className="flex justify-between items-center px-12">
@@ -144,7 +145,7 @@ export default function SurveyPage() {
                   className="text-center flex justify-center flex-col items-center cursor-pointer text-primary"
                   onClick={() => handleAnswerClick(question.id, value)}
                 >
-                  <p className="text-base font-normal mb-2">
+                  <p className="text-sm md:text-base font-normal mb-2">
                     {value === 1
                       ? "Tidak"
                       : value === 2
@@ -169,23 +170,23 @@ export default function SurveyPage() {
       </div>
       {/* Kritik dan Saran */}
       <div className="mt-8">
-        <p className="text-base font-medium mb-2 text-[#456237]">
+        <p className="text-sm md:text-base font-medium mb-2 text-[#456237]">
           Kritik dan Saran
         </p>
         <Textarea placeholder="Tulis kritik dan saran Anda di sini..." />
       </div>
       {/* Buttons */}
-      <div className="flex justify-center gap-4 mt-8">
+      <div className="flex justify-center gap-4 md:mt-8 mt-4">
         <Button
           variant="outlinePrimary"
-          className="rounded-full w-[160px]"
+          className="rounded-full w-full md:w-[160px]"
           onClick={() => setAnswers({})}
         >
           Reset
         </Button>
         <Button
           variant="default"
-          className="rounded-full w-[160px]"
+          className="rounded-full w-full md:w-[160px]"
           onClick={(e) => {
             e.preventDefault();
             console.log("Survey Answers:", answers);
