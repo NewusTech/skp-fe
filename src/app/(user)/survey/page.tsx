@@ -7,13 +7,15 @@ import { SelectInput } from "@/components/custom/selectInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 export default function SurveyPage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [selectedGender, setSelectedGender] = useState<string | undefined>(undefined);
   const [selectedKetenagaan, setSelectedKetenagaan] = useState<string | undefined>(undefined);
+  const [selectedPuskesmas, setSelectedPuskesmas] = useState<string | undefined>(undefined);
 
 
   const handleDateChange = (date: Date | undefined) => {
@@ -25,6 +27,9 @@ export default function SurveyPage() {
   };
   const handleKetenagaanChange = (value: string) => {
     setSelectedKetenagaan(value);
+  };
+  const handlePuskesmasChange = (value: string) => {
+    setSelectedPuskesmas(value);
   };
 
   const handleAnswerClick = (questionId: number, value: number) => {
@@ -52,85 +57,117 @@ export default function SurveyPage() {
     { label: "Non ASN", value: "non-asn" },
   ];
 
+  const puskemasOptions = [
+    { label: "Puskesmas Talang Ubi", value: "asn" },
+    { label: "Puskesmas Tempirai", value: "non-asn" },
+  ];
+
+  // token
+  const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
+  useEffect(() => {
+    setAccessToken(Cookies.get("accessToken"));
+  }, []);
+
   return (
     <form className="flex flex-col gap-5">
       <TitleLabel label="Isi Survey" />
-      {/* with login */}
-      <div className="date p-7 rounded-xl bg-[#F8F7F7] flex items-center">
-        <div className="md:w-1/2 w-full flex flex-col gap-4">
-          <InputComponent title="Tanggal">
-            <DatePicker
-              selectedDate={selectedDate}
-              onChange={handleDateChange}
-              placeholder="Pilih Tanggal"
-              className='w-full'
-            />
-          </InputComponent>
+      {accessToken ? (
+        <div className="date p-7 rounded-xl bg-[#F8F7F7] flex md:flex-row flex-col gap-7">
+          <div className="md:w-1/2 w-full flex flex-col gap-4">
+            <InputComponent title="Tanggal">
+              <DatePicker
+                selectedDate={selectedDate}
+                onChange={handleDateChange}
+                placeholder="Pilih Tanggal"
+                className='w-full'
+              />
+            </InputComponent>
+          </div>
+          <div className="md:w-1/2 w-full flex flex-col gap-4">
+            <InputComponent title="Puskesmas">
+              <SelectInput
+                label="Puskesmas"
+                options={puskemasOptions}
+                placeholder="Pilih puskesmas"
+                value={selectedPuskesmas}
+                onChange={handlePuskesmasChange}
+              />
+            </InputComponent>
+          </div>
         </div>
-      </div>
-      {/* not login */}
-      <div className="date p-7 rounded-xl bg-[#F8F7F7] flex md:flex-row flex-col gap-7">
-        <div className="md:w-1/2 w-full flex flex-col gap-4">
-          <InputComponent title="Nama">
-            <Input
-              placeholder="Nama"
-            />
-          </InputComponent>
-          <InputComponent title="Nomor Telepon">
-            <Input
-              placeholder="Nomor Telepon"
-            />
-          </InputComponent>
-          <InputComponent title="Jabatan">
-            <Input
-              placeholder="Jabatan"
-            />
-          </InputComponent>
-          <InputComponent title="Pendidikan Terakhir">
-            <Input
-              placeholder="Pendidikan Terakhir"
-            />
-          </InputComponent>
-          <InputComponent title="Tanggal">
-            <DatePicker
-              selectedDate={selectedDate}
-              onChange={handleDateChange}
-              placeholder="Pilih Tanggal"
-            />
-          </InputComponent>
+      ) : (
+        <div className="date p-7 rounded-xl bg-[#F8F7F7] flex md:flex-row flex-col gap-7">
+          <div className="md:w-1/2 w-full flex flex-col gap-4">
+            <InputComponent title="Nama">
+              <Input
+                placeholder="Nama"
+              />
+            </InputComponent>
+            <InputComponent title="Nomor Telepon">
+              <Input
+                placeholder="Nomor Telepon"
+              />
+            </InputComponent>
+            <InputComponent title="Jabatan">
+              <Input
+                placeholder="Jabatan"
+              />
+            </InputComponent>
+            <InputComponent title="Pendidikan Terakhir">
+              <Input
+                placeholder="Pendidikan Terakhir"
+              />
+            </InputComponent>
+            <InputComponent title="Tanggal">
+              <DatePicker
+                selectedDate={selectedDate}
+                onChange={handleDateChange}
+                placeholder="Pilih Tanggal"
+              />
+            </InputComponent>
+          </div>
+          {/* right */}
+          <div className="md:w-1/2 w-full flex flex-col gap-4">
+            <InputComponent title="Jenis Kelamin">
+              <SelectInput
+                label="Jenis Kelamin"
+                options={genderOptions}
+                placeholder="Pilih jenis kelamin"
+                value={selectedGender}
+                onChange={handleGenderChange}
+              />
+            </InputComponent>
+            <InputComponent title="Email">
+              <Input
+                placeholder="Email"
+              />
+            </InputComponent>
+            <InputComponent title="Jenis Ketenagaan">
+              <SelectInput
+                label="Jenis Ketenagaan"
+                options={ketenagaanOptions}
+                placeholder="Pilih jenis ketenagaan"
+                value={selectedKetenagaan}
+                onChange={handleKetenagaanChange}
+              />
+            </InputComponent>
+            <InputComponent title="Masa Kerja">
+              <Input
+                placeholder="Masa Kerja"
+              />
+            </InputComponent>
+            <InputComponent title="Puskesmas">
+              <SelectInput
+                label="Puskesmas"
+                options={puskemasOptions}
+                placeholder="Pilih puskesmas"
+                value={selectedPuskesmas}
+                onChange={handlePuskesmasChange}
+              />
+            </InputComponent>
+          </div>
         </div>
-        {/* right */}
-        <div className="md:w-1/2 w-full flex flex-col gap-4">
-          <InputComponent title="Jenis Kelamin">
-            <SelectInput
-              label="Jenis Kelamin"
-              options={genderOptions}
-              placeholder="Pilih jenis kelamin"
-              value={selectedGender}
-              onChange={handleGenderChange}
-            />
-          </InputComponent>
-          <InputComponent title="Email">
-            <Input
-              placeholder="Email"
-            />
-          </InputComponent>
-          <InputComponent title="Jenis Ketenagaan">
-            <SelectInput
-              label="Jenis Ketenagaan"
-              options={ketenagaanOptions}
-              placeholder="Pilih jenis ketenagaan"
-              value={selectedGender}
-              onChange={handleKetenagaanChange}
-            />
-          </InputComponent>
-          <InputComponent title="Masa Kerja">
-            <Input
-              placeholder="Masa Kerja"
-            />
-          </InputComponent>
-        </div>
-      </div>
+      )}
       {/* Questions */}
       <div className="space-y-8">
         {dummyQuestions.map((question) => (
