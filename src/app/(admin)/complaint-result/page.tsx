@@ -11,6 +11,27 @@ import { DatePickerWithRange } from "@/components/custom/rangeDate";
 import { Button } from "@/components/ui/button";
 import { Printer } from "lucide-react";
 import DataTable from "@/components/(admin)/complaint/DataTable";
+import { useGetComplaint } from "@/components/(admin)/complaint/api";
+
+const jabatanOptions = [
+  { label: "Kepala Puskesmas", value: "kepala_puskesmas" },
+  { label: "Dokter Umum", value: "dokter_umum" },
+  { label: "Dokter Gigi", value: "dokter_gigi" },
+  { label: "Bidan", value: "bidan" },
+  { label: "Perawat", value: "perawat" },
+  { label: "Apoteker", value: "apoteker" },
+  { label: "Administrasi Puskesmas", value: "administrasi_puskesmas" },
+  { label: "Kepala Subbagian Umum", value: "kepala_subbagian_umum" },
+  { label: "Petugas Laboratorium", value: "petugas_laboratorium" },
+  { label: "Petugas Kesehatan Lingkungan", value: "petugas_kesehatan_lingkungan" },
+  { label: "Petugas Gizi", value: "petugas_gizi" },
+  { label: "Tenaga Kesehatan Masyarakat", value: "tenaga_kesehatan_masyarakat" }
+];
+
+const ketenagaanOptions = [
+  { label: "ASN", value: "ASN" },
+  { label: "Non ASN", value: "NON_ASN" },
+];
 
 const ComplaintResult = () => {
   const [selectedJabatan, setSelectedJabatan] = useState<string | undefined>(undefined);
@@ -24,15 +45,15 @@ const ComplaintResult = () => {
     setCurrentPage(page)
   };
 
-  // serach
+  // serach state
   const [search, setSearch] = useState("");
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
     setCurrentPage(1); // Reset to page 1
   };
-  // serach
 
-  // data
+  // data fetching
+  const { data } = useGetComplaint(currentPage, search,);
   const dummyData = [
     {
       id: 1,
@@ -59,27 +80,6 @@ const ComplaintResult = () => {
       nama: 'David Wilson',
       judul_aduan: 'Jam Operasional Tidak Sesuai Jadwal',
     },
-  ];
-
-
-  const jabatanOptions = [
-    { label: "Kepala Puskesmas", value: "kepala_puskesmas" },
-    { label: "Dokter Umum", value: "dokter_umum" },
-    { label: "Dokter Gigi", value: "dokter_gigi" },
-    { label: "Bidan", value: "bidan" },
-    { label: "Perawat", value: "perawat" },
-    { label: "Apoteker", value: "apoteker" },
-    { label: "Administrasi Puskesmas", value: "administrasi_puskesmas" },
-    { label: "Kepala Subbagian Umum", value: "kepala_subbagian_umum" },
-    { label: "Petugas Laboratorium", value: "petugas_laboratorium" },
-    { label: "Petugas Kesehatan Lingkungan", value: "petugas_kesehatan_lingkungan" },
-    { label: "Petugas Gizi", value: "petugas_gizi" },
-    { label: "Tenaga Kesehatan Masyarakat", value: "tenaga_kesehatan_masyarakat" }
-  ];
-
-  const ketenagaanOptions = [
-    { label: "ASN", value: "ASN" },
-    { label: "Non ASN", value: "NON_ASN" },
   ];
 
   const handleJabatanChange = (value: string) => {
@@ -150,7 +150,7 @@ const ComplaintResult = () => {
       <div className="Table mt-6">
         <DataTable
           headers={tableHeaders}
-          data={dummyData}
+          data={data?.data}
           currentPage={currentPage}
           search={search}
         />
@@ -159,7 +159,7 @@ const ComplaintResult = () => {
       <div className="pagi flex items-center justify-center md:justify-end mt-3 pb-5 lg:pb-0">
         <PaginationTable
           currentPage={currentPage}
-          totalPages={10}
+          totalPages={data?.pagination?.totalPages as number}
           onPageChange={onPageChange}
         />
       </div>

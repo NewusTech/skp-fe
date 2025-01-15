@@ -43,10 +43,10 @@ const DataTable: React.FC<ComplaintResponse> = ({ headers, data, currentPage, se
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
                                     <TableCell className="">
-                                        {item?.nama ?? "-"}
+                                        {item?.Userinfo?.name ?? "-"}
                                     </TableCell>
                                     <TableCell className="">
-                                        {item?.judul_aduan ?? "-"}
+                                        {item?.judul ?? "-"}
                                     </TableCell>
                                     {/*  */}
                                     <TableCell className="text-center justify-center items-center flex gap-2">

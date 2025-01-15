@@ -15,7 +15,7 @@ export const showAlert = (type: 'success' | 'error', message: string) => {
     customClass: {
       title: isSuccess ? 'text-2xl font-semibold text-green-600' : 'text-2xl font-semibold text-red-600',
       icon: isSuccess ? 'text-green-500 animate-bounce' : 'text-red-500 animate-bounce',
-      timerProgressBar: 'bg-gradient-to-r from-blue-400 to-green-400',
+      timerProgressBar: 'bg-gradient-to-r from-green-400 to-green-700',
       confirmButton: "bg-primary" // Warna biru untuk tombol konfirmasi
     },
     backdrop: `rgba(0, 0, 0, 0.4)`,

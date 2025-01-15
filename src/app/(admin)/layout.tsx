@@ -12,6 +12,7 @@ import DashboardIcon from "@/assets/icon/dashboard";
 import SurveyIcon from "@/assets/icon/survey";
 import ResultSurveyIcon from "@/assets/icon/hasilSurvey";
 import ComplaintIcon from "@/assets/icon/complaint";
+import ComponentWithAccess from "@/components/Auth/componentWithAccess";
 
 
 interface LayoutAdminProps {
@@ -144,102 +145,104 @@ const LayoutAdmin = (props: LayoutAdminProps) => {
                     {/* <div className="text-primary text-4xl mb-5 font-semibold flex">
                         Admin
                     </div> */}
-                    <div className="wrap flex flex-col gap-1 ">
-                        <div className=" overflow-auto flex flex-col justify-between">
-                            {/* accordion */}
-                            <Accordion className="" type="single" collapsible>
-                                {/* dashboard */}
-                                <AccordionItem className="" value="item-1">
-                                    <Link
-                                        href="/dashboard"
-                                        className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/dashboard")
-                                            ? "bg-[#DFEADA] text-primary-800"
-                                            : "bg-transparent text-primary"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <DashboardIcon />
+                    <ComponentWithAccess toLogin>
+                        <div className="wrap flex flex-col gap-1 ">
+                            <div className=" overflow-auto flex flex-col justify-between">
+                                {/* accordion */}
+                                <Accordion className="" type="single" collapsible>
+                                    {/* dashboard */}
+                                    <AccordionItem className="" value="item-1">
+                                        <Link
+                                            href="/dashboard"
+                                            className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/dashboard")
+                                                ? "bg-[#DFEADA] text-primary-800"
+                                                : "bg-transparent text-primary"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <DashboardIcon />
+                                            </div>
+                                            Dashboard
+                                        </Link>
+                                    </AccordionItem>
+                                    {/* dashboard */}
+                                    {/* pertanyaan survei */}
+                                    <AccordionItem className="" value="item-2">
+                                        <Link
+                                            href="/question-survey"
+                                            className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/question-survey")
+                                                ? "bg-[#DFEADA] text-primary-800"
+                                                : "bg-transparent text-primary"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <SurveyIcon />
+                                            </div>
+                                            Pertanyaan Survei
+                                        </Link>
+                                    </AccordionItem>
+                                    {/* pertanyaan survei */}
+                                    {/* Hasil Survei */}
+                                    <AccordionItem className="" value="item-2">
+                                        <Link
+                                            href="/result-survey"
+                                            className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/result-survey")
+                                                ? "bg-[#DFEADA] text-primary-800"
+                                                : "bg-transparent text-primary"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <ResultSurveyIcon />
+                                            </div>
+                                            Hasil Survei
+                                        </Link>
+                                    </AccordionItem>
+                                    {/* Hasil Survei */}
+                                    {/* Pengaduan */}
+                                    <AccordionItem className="" value="item-2">
+                                        <Link
+                                            href="/complaint-result"
+                                            className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/complaint-result")
+                                                ? "bg-[#DFEADA] text-primary-800"
+                                                : "bg-transparent text-primary"
+                                                }`} >
+                                            <div className="w-[35px]">
+                                                <ComplaintIcon />
+                                            </div>
+                                            Pengaduan
+                                        </Link>
+                                    </AccordionItem>
+                                    {/* Pengaduan */}
+                                </Accordion>
+                                {/* accordion */}
+                                {/* profile */}
+                                <div className="wrap mt-10 flex flex-col gap-3">
+                                    <div className="flex gap-3 px-5 items-center">
+                                        <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
+                                            <Image
+                                                src="/assets/images/user.png"
+                                                alt="logo"
+                                                width={1000}
+                                                height={1000}
+                                                unoptimized
+                                                className="w-full h-full object-cover"
+                                            />
                                         </div>
-                                        Dashboard
-                                    </Link>
-                                </AccordionItem>
-                                {/* dashboard */}
-                                {/* pertanyaan survei */}
-                                <AccordionItem className="" value="item-2">
-                                    <Link
-                                        href="/question-survey"
-                                        className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/question-survey")
-                                            ? "bg-[#DFEADA] text-primary-800"
-                                            : "bg-transparent text-primary"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <SurveyIcon />
+                                        <div className="flex flex-col gap-1 text-primary">
+                                            <div className="font-medium text-sm">Super Admin</div>
                                         </div>
-                                        Pertanyaan Survei
-                                    </Link>
-                                </AccordionItem>
-                                {/* pertanyaan survei */}
-                                {/* Hasil Survei */}
-                                <AccordionItem className="" value="item-2">
-                                    <Link
-                                        href="/result-survey"
-                                        className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/result-survey")
-                                            ? "bg-[#DFEADA] text-primary-800"
-                                            : "bg-transparent text-primary"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <ResultSurveyIcon />
-                                        </div>
-                                        Hasil Survei
-                                    </Link>
-                                </AccordionItem>
-                                {/* Hasil Survei */}
-                                {/* Pengaduan */}
-                                <AccordionItem className="" value="item-2">
-                                    <Link
-                                        href="/complaint-result"
-                                        className={`nav font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] ${pathname.startsWith("/complaint-result")
-                                            ? "bg-[#DFEADA] text-primary-800"
-                                            : "bg-transparent text-primary"
-                                            }`} >
-                                        <div className="w-[35px]">
-                                            <ComplaintIcon />
-                                        </div>
-                                        Pengaduan
-                                    </Link>
-                                </AccordionItem>
-                                {/* Pengaduan */}
-                            </Accordion>
-                            {/* accordion */}
-                            {/* profile */}
-                            <div className="wrap mt-10 flex flex-col gap-3">
-                                <div className="flex gap-3 px-5 items-center">
-                                    <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
-                                        <Image
-                                            src="/assets/images/user.png"
-                                            alt="logo"
-                                            width={1000}
-                                            height={1000}
-                                            unoptimized
-                                            className="w-full h-full object-cover"
-                                        />
                                     </div>
-                                    <div className="flex flex-col gap-1 text-primary">
-                                        <div className="font-medium text-sm">Super Admin</div>
+                                    {/*  */}
+                                    <div
+                                        onClick={handleLogout}
+                                        className={`nav cursor-pointer font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] bg-transparent text-primary`} >
+                                        <div className="w-[35px]">
+                                            <LogoutIcon />
+                                        </div>
+                                        Log Out
                                     </div>
                                 </div>
-                                {/*  */}
-                                <div
-                                    onClick={handleLogout}
-                                    className={`nav cursor-pointer font-medium hover:pl-10 duration-200 transition-all flex pr-4 text-sm md:text-base items-center gap-[12px] mb-2 rounded-[8px] py-[12px] px-[24px] bg-transparent text-primary`} >
-                                    <div className="w-[35px]">
-                                        <LogoutIcon />
-                                    </div>
-                                    Log Out
-                                </div>
+                                {/* profile */}
                             </div>
-                            {/* profile */}
                         </div>
-                    </div>
+                    </ComponentWithAccess>
                 </div>
             </div>
             {/* KONTEN */}

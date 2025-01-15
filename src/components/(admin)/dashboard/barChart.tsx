@@ -73,7 +73,7 @@ export function BarChartDashboard() {
                             <button
                                 key={chart}
                                 data-active={activeChart === chart}
-                                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-primary/20 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
+                                className="relative z-10 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-primary/20 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
                                 onClick={() => setActiveChart(chart)}
                             >
                                 <span className="font-semibold">{chartConfig[chart].label}</span>

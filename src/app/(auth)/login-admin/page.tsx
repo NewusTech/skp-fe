@@ -20,6 +20,7 @@ export default function Home() {
                         className="m-auto md:w-[600px]"
                         src={SurveyIlustration}
                         alt="Survey Ilustration"
+                        priority
                     />
                     <h2 className="mt-4 text-center md:text-base text-sm font-poppins font-normal leading-[22.4px] max-w-[823px]">
                         Evaluasi Kepuasan Kerja Pegawai sebagai Langkah Nyata untuk Meningkatkan Kesejahteraan, Produktivitas, dan Hubungan di Tempat Kerja Demi Menciptakan Lingkungan yang Lebih Inklusif dan Nyaman untuk Semua
