@@ -16,17 +16,30 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import Cookies from "js-cookie";
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { useGetPuskesmas } from '@/services/api'
+import { showAlert } from '@/lib/swalAlert'
+import Loading from '@/components/ui/Loading'
 
 const ComplaintPage = () => {
     const [selectedDate, setSelectedDate] = React.useState<Date | undefined>();
     const [selectedPuskesmas, setSelectedPuskesmas] = useState<string | undefined>(undefined);
     const puskemasOptions = [
-        { label: "Puskesmas Talang Ubi", value: "asn" },
-        { label: "Puskesmas Tempirai", value: "non-asn" },
+        { label: "Puskesmas Talang Ubi", value: "1" },
+        { label: "Puskesmas Tempirai", value: "2" },
     ];
     const handlePuskesmasChange = (value: string) => {
         setSelectedPuskesmas(value);
     };
+
+    // get puskesmas
+    // INTEGRASI
+    const { data: dataPuskesmas } = useGetPuskesmas();
+    const puskesmas_idOptions = dataPuskesmas?.data.map((category: { name: string; id: number; }) => ({
+        label: category.name,
+        value: category.id,
+    }));
+    // INTEGRASI
+    // get puskesmas
 
     const {
         register,
@@ -66,11 +79,12 @@ const ComplaintPage = () => {
     const onSubmit: SubmitHandler<complaintFormData> = async (data) => {
         setLoading(true); // Set loading to true when the form is submitted
         const formData = new FormData();
-        const formattedDate = data.tanggal?.toString().split("T")[0];
+        const formattedDate = data.tanggal_pengaduan?.toString().split("T")[0];
 
         formData.append('tanggal', formattedDate?.toString() || '');
         formData.append('judul', data.judul);
         formData.append('aduan', data.aduan);
+        formData.append('puskesmas_id', data.puskesmas_id.toString());
 
         // Memeriksa jika image ada sebelum menambahkannya ke formData
         if (data.image) {
@@ -83,24 +97,24 @@ const ComplaintPage = () => {
         //     console.log(`${key}:`, value);
         // }
 
-        // try {
-        //     await axiosPrivate.put(`/user/pengaduan/create`, formData, {
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data',
-        //         },
-        //     });
-        //     // alert
-        //     showAlert('success', 'Data berhasil diperbarui!');
-        //     // alert
-        //     navigate.push('/data-master/about-company');
-        //     // reset();
-        // } catch (error: any) {
-        //     // Extract error message from API response
-        //     const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
-        //     showAlert('error', errorMessage);
-        // } finally {
-        //     setLoading(false); // Set loading to false once the process is complete
-        // }
+        try {
+            await axiosPrivate.post(`/user/pengaduan/create`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            // alert
+            showAlert('success', 'Data berhasil diperbarui!');
+            // alert
+            navigate.push('/history');
+            // reset();
+        } catch (error: any) {
+            // Extract error message from API response
+            const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
+            showAlert('error', errorMessage);
+        } finally {
+            setLoading(false); // Set loading to false once the process is complete
+        }
     };
 
     // token
@@ -130,43 +144,55 @@ const ComplaintPage = () => {
                     {/*  */}
                     <div className="date p-7 rounded-xl bg-[#F8F7F7] flex md:flex-row flex-col gap-7">
                         <div className="md:w-1/2 w-full flex flex-col gap-4">
-                            <InputComponent title="Tanggal">
-                                <Controller
-                                    name="tanggal"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <DatePicker
-                                            selectedDate={field.value ? new Date(field.value) : undefined}
-                                            onChange={(date) => field.onChange(date ? date.toISOString() : null)}
-                                            placeholder="Pilih Tanggal"
-                                            className="w-full p-2 border rounded-full px-3"
-                                        />
-                                    )}
-                                />
-                                <HelperError>{errors?.tanggal?.message}</HelperError>
+                            <InputComponent title="Tanggal" isRequired>
+                                <div className="flex flex-col gap-1 w-full">
+                                    <Controller
+                                        name="tanggal_pengaduan"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <DatePicker
+                                                selectedDate={field.value ? new Date(field.value) : undefined}
+                                                onChange={(date) => field.onChange(date ? date.toISOString() : null)}
+                                                placeholder="Pilih Tanggal"
+                                                className="w-full p-2 border rounded-full px-3"
+                                            />
+                                        )}
+                                    />
+                                    <HelperError>{errors?.tanggal_pengaduan?.message}</HelperError>
+                                </div>
                             </InputComponent>
                         </div>
                         <div className="md:w-1/2 w-full flex flex-col gap-4">
-                            <InputComponent title="Puskesmas">
-                                <SelectInput
-                                    label="Puskesmas"
-                                    options={puskemasOptions}
-                                    placeholder="Pilih puskesmas"
-                                    value={selectedPuskesmas}
-                                    onChange={handlePuskesmasChange}
-                                />
+                            <InputComponent title="Puskesmas" isRequired>
+                                <div className="flex flex-col gap-1 w-full">
+                                    <Controller
+                                        name="puskesmas_id"
+                                        control={control}
+                                        render={({ field }) => (
+                                            <SelectInput
+                                                label="Puskesmas"
+                                                options={puskesmas_idOptions}
+                                                placeholder="Pilih Puskesmas"
+                                                value={field.value}
+                                                onChange={(option) => field.onChange(option || '')}
+                                                width={`w-full ${errors.puskesmas_id ? 'border-red-500' : ''}`}
+                                            />
+                                        )}
+                                    />
+                                    <HelperError>{errors?.puskesmas_id?.message}</HelperError>
+                                </div>
                             </InputComponent>
                         </div>
                     </div>
                     {/*  */}
-                    <InputComponent colorText="text-primary-800" title="Judul Aduan" isVertical>
+                    <InputComponent colorText="text-primary-800" title="Judul Aduan" isVertical isRequired>
                         <Input
                             placeholder="Judul Aduan"
                             {...register('judul')}
                         />
                         <HelperError>{errors?.judul?.message}</HelperError>
                     </InputComponent>
-                    <InputComponent colorText="text-primary-800" title="Aduan" isVertical>
+                    <InputComponent colorText="text-primary-800" title="Aduan" isVertical isRequired>
                         <Textarea
                             placeholder="Aduan"
                             {...register('aduan')}
@@ -217,7 +243,11 @@ const ComplaintPage = () => {
                             variant="secondary"
                             className="w-full md:w-[220px]"
                         >
-                            Kirim Pengaduan
+                            {loading ? (
+                                <Loading />
+                            ) : (
+                                "Kirim Pengaduan"
+                            )}
                         </Button>
                     </div>
                 </form>

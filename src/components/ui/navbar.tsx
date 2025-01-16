@@ -59,7 +59,7 @@ export default function Navbar() {
   return (
     <div className="h-auto fixed w-full bg-white px-3 md:px-0 py-4 z-30 flex justify-between items-center container mx-auto">
       {/* Logo Section */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push('/')}>
         <div className="flex-shrink-0">
           <Image
             src="/assets/images/logo-pali.png"

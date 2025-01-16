@@ -1,36 +1,30 @@
-"use client";
-
+/* eslint-disable react-hooks/rules-of-hooks */
+// api/index.ts
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import Cookies from "js-cookie";
 import useSWR from "swr";
-import { fetcher, fetcherWithoutAuth } from "@/constants/fetcher";
 
-// get
+// get all
+const useGetPuskesmas = () => {
+  const accessToken = Cookies.get("accessToken");
+  const axiosPrivate = useAxiosPrivate();
 
-export function useCarousel() {
-  const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/carousel/get`,
-    fetcher,
+  const { data, error, mutate, isValidating, isLoading } = useSWR(
+    `/masterpuskesmas/get?limit=999`,
+    () =>
+      axiosPrivate
+        .get(
+          `/masterpuskesmas/get?limit=999`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((res) => res.data) // Ensure `res.data` contains the desired data
   );
 
-  return {
-    data,
-    isLoading,
-  };
-}
+  return { data, error, mutate, isValidating, isLoading };
+};
 
-// post
-// export const loginUser = async ({ nik, password }: LoginType) => {
-//   try {
-//     const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/login`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({ nik, password }),
-//     });
-
-//     const data = await response.json();
-//     return data;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+export { useGetPuskesmas };
