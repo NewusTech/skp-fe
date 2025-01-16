@@ -2,12 +2,9 @@ pipeline {
     agent any
 
     environment {
-        NODE_VERSION = "20" // Ganti dengan versi Node.js yang sesuai
-        // BUILD_DIR = "build"
-        // DEPLOY_SERVER = "your-server-ip" // Ganti dengan IP atau hostname server Anda
-        // DEPLOY_USER = "your-username" // Ganti dengan username server Anda
-        APP_NAME = "skp.simpuskes.com" // Nama aplikasi di PM2
-        DEPLOY_PATH = "/home/simpuskes-skp/htdocs/skp.simpuskes.com" // Path tujuan deploy di server Anda
+        NODE_VERSION = "20"
+        APP_NAME = "skp.simpuskes.com"
+        DEPLOY_PATH = "/home/simpuskes-skp/htdocs/skp.simpuskes.com"
         SOURCE_BRANCH = "main"
     }
     stages {
@@ -27,7 +24,7 @@ pipeline {
             }
         }
 
-        stage('Move path') {
+        stage('Pull branch') {
             steps {
                 script {
                     sh "git pull origin $SOURCE_BRANCH"
