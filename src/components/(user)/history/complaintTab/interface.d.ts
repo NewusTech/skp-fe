@@ -1,3 +1,5 @@
+import { Pagination } from "@/types/interface";
+
 export interface ComplaintTabs {
   data: Complaint[];
   headers: string[];
@@ -9,8 +11,20 @@ export interface ComplaintTabs {
 }
 
 interface Complaint {
-    id: number;
-    time: string;
-    date: string;
-    status: string;
+  id: number;
+  judul: string;
+  aduan: string;
+  jawaban: any;
+  image?: string;
+  tanggal_pengaduan?: string;
+  puskesmas_id: number;
+  userinfo_id: any;
+  status: number;
+  admin_id: any;
+  updated_by: any;
+  createdAt: string;
+  updatedAt: string;
+  Userinfo: any;
+  Admin: any;
+  Adminupdate: any;
 }

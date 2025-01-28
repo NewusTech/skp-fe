@@ -11,6 +11,13 @@ import { showAlert } from "@/lib/swalAlert";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { SelectInput } from "@/components/custom/selectInput";
+import { complaintUser, complaintUserFormData } from "./validation";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import HelperError from "@/components/ui/HelperError";
+import { useGetPuskesmas } from "@/services/api";
+import { format } from 'date-fns';
+
 
 export default function SurveyNotLoginPage() {
     const router = useRouter();
@@ -63,120 +70,234 @@ export default function SurveyNotLoginPage() {
         { label: "Non ASN", value: "non-asn" },
     ];
 
-    const puskemasOptions = [
-        { label: "Puskesmas Talang Ubi", value: "asn" },
-        { label: "Puskesmas Tempirai", value: "non-asn" },
-    ];
-
+    // get puskesmas
+    const { data: dataPuskesmas } = useGetPuskesmas();
+    const puskesmas_idOptions = dataPuskesmas?.data.map((category: { name: string; id: number; }) => ({
+        label: category.name,
+        value: category.id,
+    }));
     // 
 
-    const handleSubmit = async () => {
-        if (!selectedDate) {
-            showAlert("error", "Tanggal harus diisi!");
-            return;
-        }
 
+    // const handleSubmit = async () => {
+    //     if (!selectedDate) {
+    //         showAlert("error", "Tanggal harus diisi!");
+    //         return;
+    //     }
+
+    //     const datainput = Object.entries(answers).map(([key, value]) => ({
+    //         surveyform_id: Number(key),
+    //         nilai: value.toString(),
+    //     }));
+
+    //     const payload = {
+    //         datainput,
+    //         date: selectedDate.toISOString().split("T")[0],
+    //         kritiksaran,
+    //     };
+
+    //     console.log("payload", payload);
+
+    //     setLoading(true);
+    //     try {
+    //         await axiosPrivate.post(`/user/inputsurvey/create`, payload);
+    //         showAlert("success", "Data berhasil disimpan!");
+    //         navigate.push("/");
+    //     } catch (error: any) {
+    //         const errorMessage =
+    //             error?.response?.data?.data?.[0]?.message ||
+    //             error?.response?.data?.message ||
+    //             "Gagal mengirim survey!";
+    //         showAlert("error", errorMessage);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+    // 
+    const {
+        register,
+        handleSubmit,
+        reset,
+        setValue,
+        getValues,
+        control,
+        formState: { errors },
+    } = useForm<complaintUserFormData>({
+        resolver: zodResolver(complaintUser),
+    });
+
+    const onSubmit: SubmitHandler<complaintUserFormData> = async (data) => {
+        // setLoading(true); // Set loading to true when the form is submitted
         const datainput = Object.entries(answers).map(([key, value]) => ({
             surveyform_id: Number(key),
             nilai: value.toString(),
         }));
 
+        const formattedDate = format(new Date(data.date), 'yyyy-MM-dd');
         const payload = {
-            datainput,
-            date: selectedDate.toISOString().split("T")[0],
-            kritiksaran,
-        };
-
-        console.log("payload", payload);
-
-        setLoading(true);
-        try {
-            await axiosPrivate.post(`/user/inputsurvey/create`, payload);
-            showAlert("success", "Data berhasil disimpan!");
-            navigate.push("/");
-        } catch (error: any) {
-            const errorMessage =
-                error?.response?.data?.data?.[0]?.message ||
-                error?.response?.data?.message ||
-                "Gagal mengirim survey!";
-            showAlert("error", errorMessage);
-        } finally {
-            setLoading(false);
+            ...data,
+            date: formattedDate,
+            datainput
         }
+
+        console.log("payload= ", payload)
+
+        // try {
+        //     await axiosPrivate.post(`/user/pengaduan/create`, data, {
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data',
+        //         },
+        //     });
+        //     // alert
+        //     showAlert('success', 'Data berhasil diperbarui!');
+        //     // alert
+        //     navigate.push('/history');
+        //     // reset();
+        // } catch (error: any) {
+        //     // Extract error message from API response
+        //     const errorMessage = error.response?.data?.data?.[0]?.message || 'Gagal memperbarui data!';
+        //     showAlert('error', errorMessage);
+        // } finally {
+        //     setLoading(false); // Set loading to false once the process is complete
+        // }
     };
 
     return (
-        <form className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
             <TitleLabel label="Isi Survey" />
             {/* not login */}
             <div className="date p-7 rounded-xl bg-[#F8F7F7] flex md:flex-row flex-col gap-7">
                 <div className="md:w-1/2 w-full flex flex-col gap-4">
                     <InputComponent title="Nama">
-                        <Input
-                            placeholder="Nama"
-                        />
+                        <div className="w-full">
+                            <Input
+                                placeholder="Nama"
+                                {...register("name")}
+                            />
+                            <HelperError>{errors?.name?.message}</HelperError>
+                        </div>
                     </InputComponent>
                     <InputComponent title="Nomor Telepon">
-                        <Input
-                            placeholder="Nomor Telepon"
-                        />
+                        <div className="w-full">
+                            <Input
+                                placeholder="Nomor Telepon"
+                                {...register("telepon")}
+                            />
+                            <HelperError>{errors?.telepon?.message}</HelperError>
+                        </div>
                     </InputComponent>
                     <InputComponent title="Jabatan">
-                        <Input
-                            placeholder="Jabatan"
-                        />
+                        <div className="w-full">
+                            <Input
+                                placeholder="Jabatan"
+                                {...register("jabatan")}
+                            />
+                            <HelperError>{errors?.jabatan?.message}</HelperError>
+                        </div>
                     </InputComponent>
                     <InputComponent title="Pendidikan Terakhir">
-                        <Input
-                            placeholder="Pendidikan Terakhir"
-                        />
+                        <div className="w-full">
+                            <Input
+                                placeholder="Pendidikan Terakhir"
+                                {...register("pendidikan")}
+                            />
+                            <HelperError>{errors?.pendidikan?.message}</HelperError>
+                        </div>
                     </InputComponent>
                     <InputComponent title="Tanggal">
-                        <DatePicker
-                            selectedDate={selectedDate}
-                            onChange={handleDateChange}
-                            placeholder="Pilih Tanggal"
-                        />
+                        <div className="w-full">
+                            <Controller
+                                name="date"
+                                control={control}
+                                render={({ field }) => (
+                                    <DatePicker
+                                        selectedDate={field.value ? new Date(field.value) : undefined}
+                                        onChange={(date) => field.onChange(date ? date.toISOString() : null)}
+                                        placeholder="Pilih Tanggal"
+                                        className="w-full p-2 border rounded-full px-3"
+                                    />
+                                )}
+                            />
+                            <HelperError>{errors?.date?.message}</HelperError>
+                        </div>
                     </InputComponent>
                 </div>
                 {/* right */}
                 <div className="md:w-1/2 w-full flex flex-col gap-4">
                     <InputComponent title="Jenis Kelamin">
-                        <SelectInput
-                            label="Jenis Kelamin"
-                            options={genderOptions}
-                            placeholder="Pilih jenis kelamin"
-                            value={selectedGender}
-                            onChange={handleGenderChange}
-                        />
+                        <div className="w-full">
+                            <Controller
+                                name="jeniskelamin"
+                                control={control}
+                                render={({ field }) => (
+                                    <SelectInput
+                                        label="Jenis Kelamin"
+                                        options={genderOptions}
+                                        placeholder="Pilih jenis kelamin"
+                                        value={field.value}
+                                        onChange={(option) => field.onChange(option || '')}
+                                        width={`w-full ${errors.puskesmas_id ? 'border-red-500' : ''}`}
+                                    />
+                                )}
+                            />
+                            <HelperError>{errors?.jeniskelamin?.message}</HelperError>
+                        </div>
                     </InputComponent>
                     <InputComponent title="Email">
-                        <Input
-                            placeholder="Email"
-                        />
+                        <div className="w-full">
+                            <Input
+                                placeholder="Email"
+                                {...register("email")}
+                            />
+                            <HelperError>{errors?.email?.message}</HelperError>
+                        </div>
                     </InputComponent>
                     <InputComponent title="Jenis Ketenagaan">
-                        <SelectInput
-                            label="Jenis Ketenagaan"
-                            options={ketenagaanOptions}
-                            placeholder="Pilih jenis ketenagaan"
-                            value={selectedKetenagaan}
-                            onChange={handleKetenagaanChange}
-                        />
+                        <div className="w-full">
+                            <Controller
+                                name="jenisketenagakerjaan"
+                                control={control}
+                                render={({ field }) => (
+                                    <SelectInput
+                                        label="Jenis Ketenagaan"
+                                        options={ketenagaanOptions}
+                                        placeholder="Pilih jenis ketenagaan"
+                                        value={field.value}
+                                        onChange={(option) => field.onChange(option || '')}
+                                        width={`w-full ${errors.puskesmas_id ? 'border-red-500' : ''}`}
+                                    />
+                                )}
+                            />
+                            <HelperError>{errors?.jenisketenagakerjaan?.message}</HelperError>
+                        </div>
                     </InputComponent>
                     <InputComponent title="Masa Kerja">
-                        <Input
-                            placeholder="Masa Kerja"
-                        />
+                        <div className="w-full">
+                            <Input
+                                placeholder="Masa Kerja"
+                                {...register("masakerja")}
+                            />
+                            <HelperError>{errors?.masakerja?.message}</HelperError>
+                        </div>
                     </InputComponent>
                     <InputComponent title="Puskesmas">
-                        <SelectInput
-                            label="Puskesmas"
-                            options={puskemasOptions}
-                            placeholder="Pilih puskesmas"
-                            value={selectedPuskesmas}
-                            onChange={handlePuskesmasChange}
-                        />
+                        <div className="w-full">
+                            <Controller
+                                name="puskesmas_id"
+                                control={control}
+                                render={({ field }) => (
+                                    <SelectInput
+                                        label="Puskesmas"
+                                        options={puskesmas_idOptions}
+                                        placeholder="Pilih Puskesmas"
+                                        value={field.value}
+                                        onChange={(option) => field.onChange(option || '')}
+                                        width={`w-full ${errors.puskesmas_id ? 'border-red-500' : ''}`}
+                                    />
+                                )}
+                            />
+                            <HelperError>{errors?.puskesmas_id?.message}</HelperError>
+                        </div>
                     </InputComponent>
                 </div>
             </div>
@@ -222,9 +343,9 @@ export default function SurveyNotLoginPage() {
                 </p>
                 <Textarea
                     placeholder="Tulis kritik dan saran Anda di sini..."
-                    value={kritiksaran}
-                    onChange={(e) => setKritikSaran(e.target.value)}
+                    {...register("kritiksaran")}
                 />
+                <HelperError>{errors?.kritiksaran?.message}</HelperError>
             </div>
             <div className="flex justify-center gap-4 md:mt-8 mt-4">
                 <Button
@@ -236,10 +357,9 @@ export default function SurveyNotLoginPage() {
                     Batal
                 </Button>
                 <Button
-                    type="button"
+                    type="submit"
                     variant="default"
                     className="rounded-full w-full md:w-[160px]"
-                    onClick={handleSubmit}
                     disabled={loading}
                 >
                     {loading ? <Loading /> : "Kirim Survey"}

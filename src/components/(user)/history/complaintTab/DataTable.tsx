@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React from "react";
 import {
     Table,
     TableBody,
@@ -9,13 +8,22 @@ import {
     TableHead,
 } from "@/components/ui/table";
 import Link from "next/link";
-import Cookies from "js-cookie";
-import { mutate } from "swr";
+import { format, addHours } from "date-fns";
+import { id as idLocale } from "date-fns/locale";
 import { ComplaintTabs } from "./interface";
 
+const formatWIBDate = (utcDate: string) => {
+    const localDate = addHours(new Date(utcDate), 7); // Tambahkan 7 jam untuk WIB
+    return format(localDate, "EEEE, dd MMMM yyyy", { locale: idLocale }); // Format tanggal
+};
 
-const DataTable: React.FC<ComplaintTabs> = ({ headers, data, currentPage, search, }) => {
+const formatWIBTime = (utcDate: string) => {
+    const localDate = addHours(new Date(utcDate), 7); // Tambahkan 7 jam untuk WIB
+    return format(localDate, "HH.mm"); // Format jam
+};
 
+
+const DataTable: React.FC<ComplaintTabs> = ({ headers, data, currentPage }) => {
     return (
         <div className="Table mt-3">
             <div className="">
@@ -30,22 +38,26 @@ const DataTable: React.FC<ComplaintTabs> = ({ headers, data, currentPage, search
                     <TableBody>
                         {data?.length > 0 ? (
                             data.map((item, index) => (
-                                <TableRow key={item.id} index={index}>
+                                <TableRow key={item.id}>
                                     <TableCell className="text-center">
                                         {(currentPage - 1) * 10 + (index + 1)}
                                     </TableCell>
+                                    <TableCell className="truncate">
+                                        {item?.judul || "-"}
+                                    </TableCell>
+                                    {/* Jam */}
                                     <TableCell className="text-center">
-                                        {item?.time ?? "-"}
+                                        {item?.createdAt ? formatWIBTime(item.createdAt) : "-"}
+                                    </TableCell>
+                                    {/* Tanggal */}
+                                    <TableCell className="text-center">
+                                        {item?.createdAt ? formatWIBDate(item.createdAt) : "-"}
                                     </TableCell>
                                     <TableCell className="text-center">
-                                        {item?.date ?? "-"}
-                                    </TableCell>
-                                    <TableCell className="text-center">
-                                        <div className="p-1 bg-blue-200 px-3 text-blue-900 rounded-full inline-block">
-                                        {item?.status ?? "-"}
+                                        <div className={`p-1 px-3 ${item?.status === 1 ? "bg-green-200 text-green-900" : "bg-blue-200 text-blue-900"}  rounded-full inline-block`}>
+                                            {item?.status === 1 ? "Dibalas" : item?.status === 0 ? "Terkirim" : "-"}
                                         </div>
                                     </TableCell>
-                                    {/*  */}
                                     <TableCell className="text-center">
                                         <Link
                                             href={`/history/detail-complaint/${item.id}`}
@@ -58,7 +70,9 @@ const DataTable: React.FC<ComplaintTabs> = ({ headers, data, currentPage, search
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={4} className="text-center">Tidak ada data</TableCell>
+                                <TableCell colSpan={6} className="text-center">
+                                    Tidak ada data
+                                </TableCell>
                             </TableRow>
                         )}
                     </TableBody>

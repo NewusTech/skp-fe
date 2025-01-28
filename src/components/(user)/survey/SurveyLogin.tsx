@@ -9,10 +9,13 @@ import { Textarea } from "@/components/ui/textarea";
 import useAxiosPrivate from "@/hooks/useAxiosPrivate";
 import { showAlert } from "@/lib/swalAlert";
 import { useRouter } from "next/navigation";
+import { useGetPuskesmas } from "@/services/api";
+import { SelectInput } from "@/components/custom/selectInput";
 
 export default function SurveyLoginPage() {
     const router = useRouter();
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+    const [selectedPuskesmasId, setSelectedPuskesmasId] = useState<number | null>();
     const [answers, setAnswers] = useState<Record<number, number>>({});
     const [kritiksaran, setKritikSaran] = useState<string>("");
     const axiosPrivate = useAxiosPrivate();
@@ -36,9 +39,21 @@ export default function SurveyLoginPage() {
         }));
     };
 
+    // Get Puskesmas
+    const { data: dataPuskesmas } = useGetPuskesmas();
+    const puskesmas_idOptions = dataPuskesmas?.data.map((category: { name: string; id: number; }) => ({
+        label: category.name,
+        value: category.id,
+    }));
+
     const handleSubmit = async () => {
         if (!selectedDate) {
             showAlert("error", "Tanggal harus diisi!");
+            return;
+        }
+
+        if (!selectedPuskesmasId) {
+            showAlert("error", "Puskesmas harus dipilih!");
             return;
         }
 
@@ -51,24 +66,25 @@ export default function SurveyLoginPage() {
             datainput,
             date: selectedDate.toISOString().split("T")[0],
             kritiksaran,
+            puskesmas_id: selectedPuskesmasId,
         };
 
         console.log("payload", payload);
 
-        setLoading(true);
-        try {
-            await axiosPrivate.post(`/user/inputsurvey/create`, payload);
-            showAlert("success", "Data berhasil disimpan!");
-            navigate.push("/");
-        } catch (error: any) {
-            const errorMessage =
-                error?.response?.data?.data?.[0]?.message ||
-                error?.response?.data?.message ||
-                "Gagal mengirim survey!";
-            showAlert("error", errorMessage);
-        } finally {
-            setLoading(false);
-        }
+        // setLoading(true);
+        // try {
+        //     await axiosPrivate.post(`/user/inputsurvey/create`, payload);
+        //     showAlert("success", "Data berhasil disimpan!");
+        //     navigate.push("/");
+        // } catch (error: any) {
+        //     const errorMessage =
+        //         error?.response?.data?.data?.[0]?.message ||
+        //         error?.response?.data?.message ||
+        //         "Gagal mengirim survey!";
+        //     showAlert("error", errorMessage);
+        // } finally {
+        //     setLoading(false);
+        // }
     };
 
     return (
@@ -82,6 +98,18 @@ export default function SurveyLoginPage() {
                             onChange={handleDateChange}
                             placeholder="Pilih Tanggal"
                             className="w-full"
+                        />
+                    </InputComponent>
+                </div>
+                <div className="md:w-1/2 w-full flex flex-col gap-4">
+                    <InputComponent title="Puskesmas">
+                        <SelectInput
+                            label="Puskesmas"
+                            options={puskesmas_idOptions}
+                            placeholder="Pilih Puskesmas"
+                            value={selectedPuskesmasId}
+                            onChange={(value) => setSelectedPuskesmasId(value)}
+                            width={`w-full`}
                         />
                     </InputComponent>
                 </div>
