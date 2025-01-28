@@ -10,11 +10,20 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { format, addHours } from "date-fns";
+import { id as idLocale } from "date-fns/locale";
 
 interface HeaderProps {
     label?: string;
     value?: string;
 }
+
+const formatWIBDateTime = (utcDate: string | undefined) => {
+    if (!utcDate) return "-"; // Fallback jika nilai tidak ada
+    const localDate = addHours(new Date(utcDate), 7); // Konversi ke WIB
+    return format(localDate, "EEEE, dd MMMM yyyy, HH.mm", { locale: idLocale }); // Format tanggal dan waktu
+};
+
 const HeaderLabel = (props: HeaderProps) => {
     return (
         <div className="flex w-full">
@@ -67,7 +76,7 @@ const ReplyComplaint = () => {
                 <HeaderLabel label="Jenis Kelamin" value={dataUser?.Userinfo?.gender || "-"} />
                 <HeaderLabel label="Jabatan" value={dataUser?.Userinfo?.jabatan || "-"} />
                 <HeaderLabel label="Ketenagaan" value={dataUser?.Userinfo?.ketenagaan || "-"} />
-                <HeaderLabel label="Tanggal" value={dataUser?.createdAt || "-"} />
+                <HeaderLabel label="Tanggal" value={formatWIBDateTime(dataUser?.createdAt)} />
             </div>
             <div className="card rounded-xl bg-[#F8F7F7] p-6 flex flex-col gap-3">
                 <div className="font-semibold text-primary">Judul Aduan</div>

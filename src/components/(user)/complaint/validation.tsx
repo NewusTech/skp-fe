@@ -1,9 +1,13 @@
 import { z } from "zod";
 
 export const complaint = z.object({
-    tanggal: z.string({
+    tanggal_pengaduan: z.string({
         required_error: "Tanggal tidak boleh kosong!",
     }).min(1, { message: "Tanggal tidak boleh kosong!" }),
+    puskesmas_id: z.preprocess(
+        (val) => Number(val),
+        z.number().min(1, { message: "Jawaban tidak boleh kosong!" })
+    ),
     judul: z.string().min(1, { message: "Judul tidak boleh kosong!" }),
     aduan: z.string().min(1, { message: "Aduan tidak boleh kosong!" }),
     image: z

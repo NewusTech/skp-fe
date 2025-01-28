@@ -9,6 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import useAxiosPrivate from "@/hooks/useAxiosPrivate";
+import { useRouter } from "next/navigation";
+import { showAlert } from "@/lib/swalAlert";
+import SurveyLoginPage from "@/components/(user)/survey/SurveyLogin";
+import SurveyNotLoginPage from "@/components/(user)/survey/SurveyNotLogin";
 
 export default function SurveyPage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -68,170 +73,40 @@ export default function SurveyPage() {
     setAccessToken(Cookies.get("accessToken"));
   }, []);
 
+  // post
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useRouter();
+  const [loading, setLoading] = useState(false);
+  const handleSubmit = async () => {
+
+    setLoading(true);
+    // 
+    const payload = {
+
+    }
+    try {
+      setLoading(true);
+      await axiosPrivate.post(`/user/inputsurvey/create`, payload);
+      showAlert("success", "Data berhasil disimpan!");
+      navigate.push("/my-package/history");
+    } catch (error: any) {
+      const errorMessage =
+        error?.response?.data?.data?.[0]?.message ||
+        error?.response?.data?.message ||
+        "Gagal menyelesaikan tryout!";
+      showAlert("error", errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <form className="flex flex-col gap-5">
-      <TitleLabel label="Isi Survey" />
+    <div className="">
       {accessToken ? (
-        <div className="date p-7 rounded-xl bg-[#F8F7F7] flex md:flex-row flex-col gap-7">
-          <div className="md:w-1/2 w-full flex flex-col gap-4">
-            <InputComponent title="Tanggal">
-              <DatePicker
-                selectedDate={selectedDate}
-                onChange={handleDateChange}
-                placeholder="Pilih Tanggal"
-                className='w-full'
-              />
-            </InputComponent>
-          </div>
-          <div className="md:w-1/2 w-full flex flex-col gap-4">
-            <InputComponent title="Puskesmas">
-              <SelectInput
-                label="Puskesmas"
-                options={puskemasOptions}
-                placeholder="Pilih puskesmas"
-                value={selectedPuskesmas}
-                onChange={handlePuskesmasChange}
-              />
-            </InputComponent>
-          </div>
-        </div>
+        <SurveyLoginPage />
       ) : (
-        <div className="date p-7 rounded-xl bg-[#F8F7F7] flex md:flex-row flex-col gap-7">
-          <div className="md:w-1/2 w-full flex flex-col gap-4">
-            <InputComponent title="Nama">
-              <Input
-                placeholder="Nama"
-              />
-            </InputComponent>
-            <InputComponent title="Nomor Telepon">
-              <Input
-                placeholder="Nomor Telepon"
-              />
-            </InputComponent>
-            <InputComponent title="Jabatan">
-              <Input
-                placeholder="Jabatan"
-              />
-            </InputComponent>
-            <InputComponent title="Pendidikan Terakhir">
-              <Input
-                placeholder="Pendidikan Terakhir"
-              />
-            </InputComponent>
-            <InputComponent title="Tanggal">
-              <DatePicker
-                selectedDate={selectedDate}
-                onChange={handleDateChange}
-                placeholder="Pilih Tanggal"
-              />
-            </InputComponent>
-          </div>
-          {/* right */}
-          <div className="md:w-1/2 w-full flex flex-col gap-4">
-            <InputComponent title="Jenis Kelamin">
-              <SelectInput
-                label="Jenis Kelamin"
-                options={genderOptions}
-                placeholder="Pilih jenis kelamin"
-                value={selectedGender}
-                onChange={handleGenderChange}
-              />
-            </InputComponent>
-            <InputComponent title="Email">
-              <Input
-                placeholder="Email"
-              />
-            </InputComponent>
-            <InputComponent title="Jenis Ketenagaan">
-              <SelectInput
-                label="Jenis Ketenagaan"
-                options={ketenagaanOptions}
-                placeholder="Pilih jenis ketenagaan"
-                value={selectedKetenagaan}
-                onChange={handleKetenagaanChange}
-              />
-            </InputComponent>
-            <InputComponent title="Masa Kerja">
-              <Input
-                placeholder="Masa Kerja"
-              />
-            </InputComponent>
-            <InputComponent title="Puskesmas">
-              <SelectInput
-                label="Puskesmas"
-                options={puskemasOptions}
-                placeholder="Pilih puskesmas"
-                value={selectedPuskesmas}
-                onChange={handlePuskesmasChange}
-              />
-            </InputComponent>
-          </div>
-        </div>
+        <SurveyNotLoginPage />
       )}
-      {/* Questions */}
-      <div className="space-y-8">
-        {dummyQuestions.map((question) => (
-          <div key={question.id} className="space-y-8">
-            <p className="md:text-base text-sm font-semibold text-primary-800">
-              {question.id}. {question.text}
-            </p>
-            <div className="flex justify-between items-center px-12">
-              {[1, 2, 3, 4].map((value) => (
-                <div
-                  key={value}
-                  className="text-center flex justify-center flex-col items-center cursor-pointer text-primary"
-                  onClick={() => handleAnswerClick(question.id, value)}
-                >
-                  <p className="text-sm md:text-base font-normal mb-2">
-                    {value === 1
-                      ? "Tidak"
-                      : value === 2
-                        ? "Kurang Baik"
-                        : value === 3
-                          ? "Baik"
-                          : "Sangat Baik"}
-                  </p>
-                  <div
-                    className={`w-[50px] h-[50px] rounded-full flex items-center justify-center ${answers[question.id] === value
-                      ? "bg-primary text-white"
-                      : "border-2 border-primary"
-                      }`}
-                  >
-                    {value}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* Kritik dan Saran */}
-      <div className="mt-8">
-        <p className="text-sm md:text-base font-medium mb-2 text-[#456237]">
-          Kritik dan Saran
-        </p>
-        <Textarea placeholder="Tulis kritik dan saran Anda di sini..." />
-      </div>
-      {/* Buttons */}
-      <div className="flex justify-center gap-4 md:mt-8 mt-4">
-        <Button
-          variant="outlinePrimary"
-          className="rounded-full w-full md:w-[160px]"
-          onClick={() => setAnswers({})}
-        >
-          Reset
-        </Button>
-        <Button
-          variant="default"
-          className="rounded-full w-full md:w-[160px]"
-          onClick={(e) => {
-            e.preventDefault();
-            console.log("Survey Answers:", answers);
-          }}
-        >
-          Kirim Survey
-        </Button>
-      </div>
-    </form>
+    </div>
   );
 }

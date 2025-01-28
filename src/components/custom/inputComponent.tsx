@@ -21,7 +21,7 @@ export default function InputComponent({
                 <h4 className={`font-medium md:text-base text-sm ${colorText}`}>
                     {title}
                     {isRequired && (
-                        <span className="text-error-700 text-sm -mt-4">*</span>
+                        <span className="text-red-500 text-sm -mt-4">*</span>
                     )}
                 </h4>
                 {children}
@@ -35,7 +35,7 @@ export default function InputComponent({
                 <h4 className={`w-4/12 flex-shrink-0 font-medium md:text-base text-sm ${colorText}`}>
                     {title}
                     {isRequired && (
-                        <span className="text-error-700 text-sm -mt-4">*</span>
+                        <span className="text-red-500 text-sm -mt-4">*</span>
                     )}
                 </h4>
                 {children}
@@ -48,7 +48,7 @@ export default function InputComponent({
             <h4 className={`w-1/2 flex-shrink-0 font-medium md:text-base text-sm ${colorText}`}>
                 {title}
                 {isRequired && (
-                    <span className="text-error-700 text-sm -mt-4">*</span>
+                    <span className="text-red-500 text-sm -mt-4">*</span>
                 )}
             </h4>
             {children}

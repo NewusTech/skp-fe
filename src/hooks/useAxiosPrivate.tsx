@@ -35,7 +35,7 @@ export const useAxiosPrivate = () => {
             confirmButtonColor: "#2F55D4",
           }).then(() => {
             Cookies.remove("accessToken");
-            router.push("/login");
+            router.push("/");
           });
 
           return Promise.reject(err);
@@ -49,7 +49,7 @@ export const useAxiosPrivate = () => {
             confirmButtonColor: "#2F55D4",
           }).then(() => {
             Cookies.remove("accessToken");
-            router.push("/login");
+            router.push("/");
           });
         }
         return Promise.reject(err);
